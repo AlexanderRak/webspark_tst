@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Monblanproject test task. Adaptive HTML/CSS/JavaScript layout with custom datepicker." />
+  <title>Monblanproject</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+
+  <div class="monblan__elips-header-top">
+    <img src="./assets/images/monblan_project__elips_header.svg" alt="">
+  </div>
+
+  <header class="monblan__profile-header">
+    <div class="monblan__profile-header-inner monblan__container">
+      <a class="monblan__profile-logo" href="#" aria-label="Monblanproject home">
+        <img src="./assets/images/monblan_project__logo.svg" width="130" height="130" alt="Monblanproject" />
+      </a>
+
+      <div class="monblan__profile-info">
+        <div class="monblan__profile-info-top">
+          <h1 class="monblan__profile-info-title">monblanproject</h1>
+          <button class="monblan__profile-info-start" type="button">Start on 17-02-2016</button>
+        </div>
+
+        <ul class="monblan__profile-stats" aria-label="Profile statistics">
+          <li><strong>870</strong> posts</li>
+          <li><strong>11,787</strong> followers</li>
+          <li><strong>112</strong> following</li>
+        </ul>
+
+        <form class="monblan__date-filter" aria-label="Filter posts by date">
+          <span class="monblan__date-filter-label">Date</span>
+
+          <div class="monblan__date-field">
+            <label class="monblan__visually-hidden" for="dateFrom">Date from</label>
+            <input
+              class="monblan__date-field-input monblan__datepicker"
+              id="dateFrom"
+              type="text"
+              placeholder="from"
+              autocomplete="off"
+              inputmode="none"
+            />
+            <button class="monblan__date-field-clear" type="button" data-clear="dateFrom" aria-label="Clear date from">
+              <img src="./assets/images/monblan_project__close.svg" alt="">
+            </button>
+            <button class="monblan__date-field-calendar" type="button" data-open="dateFrom" aria-label="Open date from calendar">
+              <img src="./assets/images/monblan_project__calendar.svg" alt="">
+            </button>
+          </div>
+
+          <div class="monblan__date-field">
+            <label class="monblan__visually-hidden" for="dateTo">Date to</label>
+            <input
+              class="monblan__date-field-input monblan__datepicker"
+              id="dateTo"
+              type="text"
+              value="09_08_2016"
+              autocomplete="off"
+              inputmode="none"
+            />
+            <button class="monblan__date-field-clear" type="button" data-clear="dateTo" aria-label="Clear date to">
+              <img src="./assets/images/monblan_project__close.svg" alt="">
+            </button>
+            <button class="monblan__date-field-calendar" type="button" data-open="dateTo" aria-label="Open date to calendar">
+              <img src="./assets/images/monblan_project__calendar.svg" alt="">
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="monblan__main">
+    <section class="monblan__posts monblan__container" aria-labelledby="postsTitle">
+      <h2 class="monblan__visually-hidden" id="postsTitle">Posts</h2>
+
+      <div class="monblan__view-switcher" role="group" aria-label="Change posts view">
+        <button class="monblan__view-switcher-button monblan__is-active" type="button" data-view="grid" aria-label="Grid view" aria-pressed="true">
+          <span class="monblan__view-switcher-icon monblan__view-switcher-icon--grid" aria-hidden="true"></span>
+        </button>
+        <button class="monblan__view-switcher-button" type="button" data-view="list" aria-label="List view" aria-pressed="false">
+          <span class="monblan__view-switcher-icon monblan__view-switcher-icon--list" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="monblan__posts-list monblan__posts-list--grid" id="postsList" aria-live="polite"></div>
+
+      <button class="monblan__load-more" type="button" id="loadMore">Load more</button>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="./assets/js/main.js"></script>
+</body>
+</html>
