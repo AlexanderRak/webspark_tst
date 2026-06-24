@@ -1,17 +1,6 @@
 (function () {
   'use strict';
 
-  /*
-   * Функціонал сторінки:
-   * 1. Зберігаємо початкові налаштування, масив постів та знаходимо потрібні HTML-елементи.
-   * 2. Перетворюємо дати з полів і масиву постів у формат, зручний для порівняння.
-   * 3. Фільтруємо пости за вибраними датами та обмежуємо їх кількість для кнопки Load more.
-   * 4. Формуємо HTML карток. Для плитки використовуємо велике зображення, для списку - smallImage.
-   * 5. Перемальовуємо список після зміни дат, перемикання вигляду або натискання Load more.
-   * 6. Підключаємо flatpickr, обробники відкриття календаря та очищення полів.
-   * 7. Після завантаження файлу ініціалізуємо календарі й виконуємо перше відображення постів.
-   */
-
   const POSTS_STEP = 8;
   let currentView = 'grid';
   let visibleCount = POSTS_STEP;
@@ -24,108 +13,108 @@
       image: './assets/images/monblan_project__post_img1.png',
       smallImage: './assets/images/monblan_project__post_img1small.png',
       alt: 'Dramatic sunset clouds',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 2,
       image: './assets/images/monblan_project__post_img2.png',
       smallImage: './assets/images/monblan_project__post_img2small.png',
       alt: 'Boats on turquoise water',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 3,
       image: './assets/images/monblan_project__post_img3.png',
       smallImage: './assets/images/monblan_project__post_img3small.png',
       alt: 'Soft pastel sea horizon',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 4,
       image: './assets/images/monblan_project__post_img1.png',
       smallImage: './assets/images/monblan_project__post_img4small.png',
       alt: 'Dark portrait in shadow',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 5,
       image: './assets/images/monblan_project__post_img5.png',
       smallImage: './assets/images/monblan_project__post_img5small.png',
       alt: 'Modern building facade',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 6,
       image: './assets/images/monblan_project__post_img6.png',
       smallImage: './assets/images/monblan_project__post_img6small.png',
       alt: 'Warm interior with fireplace',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 7,
       image: './assets/images/monblan_project__post_img7.png',
       smallImage: './assets/images/monblan_project__post_img7small.png',
       alt: 'Woman standing outdoors',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 8,
       image: './assets/images/monblan_project__post_img8.png',
       smallImage: './assets/images/monblan_project__post_img8small.png',
       alt: 'Forest bride photo',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
     {
       id: 9,
       image: './assets/images/monblan_project__post_img1.png',
       smallImage: './assets/images/monblan_project__post_img9small.png',
       alt: 'Dramatic sunset clouds',
-      postDate: '2016-08-09',
+      postDate: '09-08-2016',
       todayLikes: 128,
       todayComments: 31,
       totalLikes: 67,
       totalComments: 22,
-      uploadDate: '2016-04-11'
+      uploadDate: '11-04-2016'
     },
   ];
 
@@ -146,7 +135,7 @@
       '<svg class="monblan__post-card-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 6.5C21 4.57 19.43 3 17.5 3h-11C4.57 3 3 4.57 3 6.5v7C3 15.43 4.57 17 6.5 17H15l5 4v-4.35c.62-.43 1-1.15 1-1.92V6.5z"/></svg>'
   };
 
-  // Перетворює дату з поля календаря з формату DD_MM_YYYY на об'єкт Date.
+  // Перетворює дату з рядка формату DD_MM_YYYY або DD-MM-YYYY на об'єкт Date.
   function parseDate(value) {
     if (!value) return null;
 
@@ -156,32 +145,35 @@
     if (parts.length !== 3) return null;
 
     const day = Number(parts[0]);
-    const month = Number(parts[1]) - 1;
+    const month = Number(parts[1]);
     const year = Number(parts[2]);
 
-    if (!day || month < 0 || !year) return null;
+    if (!day || !month || !year) return null;
+    if (month < 1 || month > 12) return null;
+    if (day < 1 || day > 31) return null;
 
-    return new Date(year, month, day);
-  }
-
-  // Перетворює дату поста з формату YYYY-MM-DD на об'єкт Date.
-  function parseISODate(value) {
-    const [year, month, day] = value.split('-').map(Number);
     return new Date(year, month - 1, day);
   }
 
-  // Форматує дату поста для відображення у картці у вигляді D-MM-YYYY.
+  // Форматує дату для відображення у картці у вигляді D-MM-YYYY.
   function formatDate(value) {
-    const [year, month, day] = value.split('-');
-    return `${Number(day)}-${month}-${year}`;
+    const date = parseDate(value);
+    
+    if (!date) return value;
+
+    const day = date.getDate();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
   }
 
   // Повертає лише ті пости, дата яких відповідає вибраним значенням фільтра.
   function getFilteredPosts() {
     return posts.filter((post) => {
-      const postDate = parseISODate(post.postDate);
+      const postDate = parseDate(post.postDate);
 
-      return (!filterFrom || postDate >= filterFrom) && (!filterTo || postDate >= filterTo);
+      return (!filterFrom || postDate >= filterFrom) && (!filterTo || postDate <= filterTo);
     });
   }
 
@@ -194,11 +186,10 @@
   function postTemplate(post) {
     const isListView = currentView === 'list';
     const image = isListView ? post.smallImage : post.image;
-    const imageSize = isListView ? 86 : 203;
 
     return `
       <article class="monblan__post-card">
-        <img class="monblan__post-card-image" src="${image}" alt="${post.alt}" loading="lazy" width="${imageSize}" height="${imageSize}">
+        <img class="monblan__post-card-image" src="${image}" alt="${post.alt}" loading="lazy">
 
         <div class="monblan__post-card-content">
           <div class="monblan__post-card-stats">
@@ -294,6 +285,8 @@
   }
 
   viewButtons.forEach((button) => {
+    console.log(button);
+    
     button.addEventListener('click', () => updateView(button.dataset.view));
   });
 
