@@ -139,18 +139,13 @@
   function parseDate(value) {
     if (!value) return null;
 
-    const normalized = value.replace(/_/g, '-');
-    const parts = normalized.split('-');
+    const [day, month, year] = value.replace(/_/g, '-').split('-').map(Number);
 
-    if (parts.length !== 3) return null;
-
-    const day = Number(parts[0]);
-    const month = Number(parts[1]);
-    const year = Number(parts[2]);
-
-    if (!day || !month || !year) return null;
-    if (month < 1 || month > 12) return null;
-    if (day < 1 || day > 31) return null;
+    if ([day, month, year].some(num => !num) ||
+      month < 1 || month > 12 ||
+      day < 1 || day > 31) {
+      return null;
+    }
 
     return new Date(year, month - 1, day);
   }
