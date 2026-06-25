@@ -127,7 +127,6 @@
   const dateToInput = document.querySelector('#dateTo');
   const openDatepickerButtons = document.querySelectorAll('[data-open]');
   const clearDatepickerButtons = document.querySelectorAll('[data-clear]');
-
   const icons = {
     heart:
       '<svg class="monblan__post-card-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
@@ -135,46 +134,41 @@
       '<svg class="monblan__post-card-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 6.5C21 4.57 19.43 3 17.5 3h-11C4.57 3 3 4.57 3 6.5v7C3 15.43 4.57 17 6.5 17H15l5 4v-4.35c.62-.43 1-1.15 1-1.92V6.5z"/></svg>'
   };
 
-  // Перетворює дату з рядка формату DD_MM_YYYY або DD-MM-YYYY на об'єкт Date.
-  function parseDate(value) {
-    if (!value) return null;
+  // Перемикає вигляд між плиткою і списком та оновлює активну кнопку.
+  function updateView(view) {
+    currentView = view;
 
-    const [day, month, year] = value.replace(/_/g, '-').split('-').map(Number);
+    viewButtons.forEach((button) => {
+      const isActive = button.dataset.view === view;
+      button.classList.toggle('monblan__is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
 
-    if ([day, month, year].some(num => !num) ||
-      month < 1 || month > 12 ||
-      day < 1 || day > 31) {
-      return null;
-    }
-
-    return new Date(year, month - 1, day);
+    renderPosts();
   }
 
-  // Форматує дату для відображення у картці у вигляді D-MM-YYYY.
-  function formatDate(value) {
-    const date = parseDate(value);
+  // Відображає пости, повідомлення про порожній результат і стан кнопки Load more.
+  function renderPosts() {
+    const filteredPosts = getFilteredPosts();
+
+    const visiblePosts = filteredPosts.slice(0, visibleCount);
+
+    postsList.className = `monblan__posts-list monblan__posts-list--${currentView}`;
+
+    postsList.innerHTML = visiblePosts.length
+      ? visiblePosts.map(postTemplate).join('')
+      : '<p class="monblan__empty-state">Posts not found</p>';
     
-    if (!date) return value;
-
-    const day = date.getDate();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-
-    return `${day}-${month}-${year}`;
+    loadMoreButton.classList.toggle('monblan__is-hidden', visibleCount >= filteredPosts.length);
   }
 
   // Повертає лише ті пости, дата яких відповідає вибраним значенням фільтра.
   function getFilteredPosts() {
     return posts.filter((post) => {
       const postDate = parseDate(post.postDate);
-
+      
       return (!filterFrom || postDate >= filterFrom) && (!filterTo || postDate <= filterTo);
     });
-  }
-
-  // Створює HTML для однієї метрики: іконки та кількості лайків або коментарів.
-  function metricTemplate(icon, value) {
-    return `<span class="monblan__post-card-metric">${icon}${value}</span>`;
   }
 
   // Створює HTML картки поста та вибирає потрібний розмір зображення для поточного вигляду.
@@ -212,39 +206,37 @@
     `;
   }
 
-  // Відображає пости, повідомлення про порожній результат і стан кнопки Load more.
-  function renderPosts() {
-    const filteredPosts = getFilteredPosts();
-    const visiblePosts = filteredPosts.slice(0, visibleCount);
-
-    postsList.className = `monblan__posts-list monblan__posts-list--${currentView}`;
-
-    postsList.innerHTML = visiblePosts.length
-      ? visiblePosts.map(postTemplate).join('')
-      : '<p class="monblan__empty-state">Posts not found</p>';
-
-    loadMoreButton.classList.toggle('monblan__is-hidden', visibleCount >= filteredPosts.length);
+  // Створює HTML для однієї метрики: іконки та кількості лайків або коментарів.
+  function metricTemplate(icon, value) {
+    return `<span class="monblan__post-card-metric">${icon}${value}</span>`;
   }
 
-  // Оновлює значення фільтрів із полів, скидає пагінацію та перемальовує список.
-  function updateFilters() {
-    filterFrom = parseDate(dateFromInput.value);
-    filterTo = parseDate(dateToInput.value);
-    visibleCount = POSTS_STEP;
-    renderPosts();
+  // Форматує дату для відображення у картці у вигляді D-MM-YYYY.
+  function formatDate(value) {
+    const date = parseDate(value);
+
+    if (!date) return value;
+
+    const day = date.getDate();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
   }
 
-  // Перемикає вигляд між плиткою і списком та оновлює активну кнопку.
-  function updateView(view) {
-    currentView = view;
+  // Перетворює дату з рядка формату DD_MM_YYYY або DD-MM-YYYY на об'єкт Date.
+  function parseDate(value) {
+    if (!value) return null;
 
-    viewButtons.forEach((button) => {
-      const isActive = button.dataset.view === view;
-      button.classList.toggle('monblan__is-active', isActive);
-      button.setAttribute('aria-pressed', String(isActive));
-    });
+    const [day, month, year] = value.replace(/_/g, '-').split('-').map(Number);
 
-    renderPosts();
+    if ([day, month, year].some(num => !num) ||
+      month < 1 || month > 12 ||
+      day < 1 || day > 31) {
+      return null;
+    }
+
+    return new Date(year, month - 1, day);
   }
 
   // Підключає календарі flatpickr і обробники кнопок відкриття та очищення полів.
@@ -258,7 +250,7 @@
         dateFormat: 'd_m_Y',
         allowInput: true,
         disableMobile: true,
-        onChange: updateFilters
+        onChange: updateFilters,
       });
     });
 
@@ -279,9 +271,16 @@
     });
   }
 
-  viewButtons.forEach((button) => {
-    console.log(button);
+  // Оновлює значення фільтрів із полів, скидає пагінацію та перемальовує список.
+  function updateFilters() {
+    filterFrom = parseDate(dateFromInput.value);
+    filterTo = parseDate(dateToInput.value);
     
+    visibleCount = POSTS_STEP;
+    renderPosts();
+  }
+
+  viewButtons.forEach((button) => {
     button.addEventListener('click', () => updateView(button.dataset.view));
   });
 
