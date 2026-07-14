@@ -175,9 +175,10 @@
   function postTemplate(post) {
     const isListView = currentView === 'list';
     const image = isListView ? post.smallImage : post.image;
+    const iter = 0;
 
     return `
-      <article class="monblan__post-card">
+      <article class="monblan__post-card" tabindex="${iter}">
         <img class="monblan__post-card-image" src="${image}" alt="${post.alt}" loading="lazy">
 
         <div class="monblan__post-card-content">
