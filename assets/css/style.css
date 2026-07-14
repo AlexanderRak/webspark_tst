@@ -434,6 +434,7 @@ button {
   -o-transition: transform var(--transition), box-shadow var(--transition);
   transition: transform var(--transition), box-shadow var(--transition);
   transition: transform var(--transition), box-shadow var(--transition), -webkit-transform var(--transition), -webkit-box-shadow var(--transition);
+  cursor: pointer;
 }
 .monblan__post-card:hover {
   -webkit-transform: translateY(-2px);
@@ -441,6 +442,9 @@ button {
           transform: translateY(-2px);
   -webkit-box-shadow: 0 10px 22px rgba(0, 0, 0, 0.055);
           box-shadow: 0 10px 22px rgba(0, 0, 0, 0.055);
+}
+.monblan__post-card:focus-visible {
+  outline-offset: 1px;
 }
 .monblan__post-card-image {
   width: 100%;
