@@ -8,7 +8,8 @@
    --color-blue: #4097e8
    --color-grey-icon: #c1c1c1
    --color-green: #006a66
-   --font-main: Arial, Helvetica, sans-serif
+   --font-main: 'Roboto', sans-serif
+   --font-main-header-logo: 'Montserrat', sans-serif
    --transition: 180ms ease
 
 *
@@ -96,11 +97,12 @@ button
       gap: 22px
       margin-bottom: 16px
    &__profile-info-title
+      font-family: var(--font-main-header-logo)
       margin: 0
       font-size: 24px
-      font-weight: 400
+      font-weight: 500
       line-height: 1
-      letter-spacing: 0.01em
+      letter-spacing: -1%
    &__profile-info-start
       min-width: 137px
       height: 28px
